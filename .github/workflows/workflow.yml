@@ -28,6 +28,15 @@ jobs:
         java-version: ${{ env.JAVA_VERSION }}
     - name: Build with Maven
       run: mvn package --file pom.xml
+    - name: Upload artifact for deployment job
+      uses: actions/upload-artifact@v2
+      with:
+        name: java-app
+        path: '${{ github.workspace }}/target/*.war'
+    - name: Download artifact from build job
+      uses: actions/download-artifact@v2
+      with:
+        name: java-app
     - name: 'Deploy to Azure WebApp'
       uses: azure/webapps-deploy@v2
       with: 
@@ -35,6 +44,8 @@ jobs:
         slot-name: 'dev1'
         publish-profile: ${{ secrets.AzureAppService_PublishProfile_bf87e98cea964ad5b6ac4646a8e6fb21 }}
         package: '${{ env.AZURE_WEBAPP_PACKAGE_PATH }}/target/*.war'
+#    - name: Add an artifact
+    - task: PublishBuildArtifacts@1
         
   # For more information on GitHub Actions for Azure, refer to https://github.com/Azure/Actions
   # For more samples to get started with GitHub Action workflows to deploy to Azure, refer to https://github.com/Azure/actions-workflow-samples
