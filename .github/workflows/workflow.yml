@@ -112,6 +112,6 @@ jobs:
       uses: azure/webapps-deploy@v2
       with:
         app-name: 'spring-azip'
-        slot-name: 'dev1'
+#        slot-name: 'production'
         publish-profile: ${{ secrets.AzureAppService_PublishProfile_bf87e98cea964ad5b6ac4646a8e6fb21 }}
         package: '*.jar'
